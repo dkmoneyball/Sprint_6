@@ -1,21 +1,26 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from locators import FaqPageLocators
+from selenium.webdriver import ActionChains
+from pages.base_page import BasePage
+from locators.locators import FaqPageLocators
 
+class FaqPage(BasePage):
+    """Класс для работы со страницей FAQ"""
 
-class FaqPage:
-    """Класс для работы со страницей FAQ, использующий локаторы из locators.py"""
+    URL = "https://qa-scooter.praktikum-services.ru/"
 
-    def __init__(self, driver):
-        self.driver = driver
+    def open(self):
+        """Открыть страницу FAQ"""
+        self.open_page(self.URL)
 
-    def click_question(self):
-        """Метод для клика по вопросу 'Сколько это стоит? И как оплатить?'"""
-        question_element = self.driver.find_element(*FaqPageLocators.QUESTION_COST_PAYMENT)
-        question_element.click()
+    def click_question(self, question_locator):
+        """Кликаем на вопрос, предварительно прокрутив страницу вниз"""
+        self.scroll_to_bottom()  # Прокрутка до самого низа страницы
+        question_element = self.find_element(question_locator)
 
-    def is_answer_displayed(self):
-        """Метод для проверки, отображается ли ответ"""
-        wait = WebDriverWait(self.driver, 10)
-        answer_element = wait.until(EC.visibility_of_element_located(FaqPageLocators.ANSWER_COST_PAYMENT))
-        return "Сутки — 400 рублей. Оплата курьеру — наличными или картой." in answer_element.text
+        # Используем JavaScript для клика
+        self.driver.execute_script("arguments[0].click();", question_element)
+
+    def is_answer_displayed(self, answer_locator, expected_text):
+        """Проверяем, что ответ отображается и содержит ожидаемый текст"""
+        return self.is_text_present(answer_locator, expected_text)
