@@ -4,8 +4,11 @@ from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
 
 class MainPage(BasePage):
+
+    URL = "https://qa-scooter.praktikum-services.ru/"
+
     def load(self):
-        self.driver.get("https://qa-scooter.praktikum-services.ru/")
+        self.open_page(self.URL)
 
     def click_scooter_button(self):
         scooter_button = self.driver.find_element(*MainPageLocators.SCOOTER_BUTTON)

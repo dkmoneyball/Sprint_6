@@ -6,8 +6,12 @@ from selenium.webdriver.common.by import By
 
 
 class ScooterOrderPage(BasePage):
+
+
+    URL = "https://qa-scooter.praktikum-services.ru/"
+
     def open_main_page(self):
-        self.open_page("https://qa-scooter.praktikum-services.ru/")
+        self.open_page(self.URL)
 
     def fill_order_form(self, first_name, last_name, address, metro_station, phone_number):
         # Используем методы BasePage для взаимодействия с элементами
@@ -49,4 +53,5 @@ class ScooterOrderPage(BasePage):
         self.click_element(ScooterOrderPageLocators.BUTTON_CONFIRM_ORDER)
 
     def check_order_status(self):
-        self.click_element(ScooterOrderPageLocators.BUTTON_VIEW_STATUS)
+        """Проверка наличия кнопки 'Посмотреть статус'."""
+        return self.is_element_present(ScooterOrderPageLocators.BUTTON_VIEW_STATUS)

@@ -27,3 +27,11 @@ class BasePage:
         element.clear()  # Очистить поле перед вводом, если это необходимо
         element.send_keys(text)
 
+    def is_element_present(self, locator, time=10):
+        """Проверяет наличие элемента на странице."""
+        try:
+            WebDriverWait(self.driver, time).until(EC.presence_of_element_located(locator))
+            return True
+        except:
+            return False
+

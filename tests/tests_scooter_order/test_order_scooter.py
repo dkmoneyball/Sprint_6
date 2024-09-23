@@ -29,5 +29,5 @@ def test_order_scooter(setup, first_name, last_name, address, metro_station, pho
     # Подтверждаем заказ
     scooter_page.confirm_order()
 
-    # Проверяем статус заказа
-    scooter_page.check_order_status()
+    # Проверяем, что после подтверждения заказа отображается кнопка "Посмотреть статус"
+    assert scooter_page.check_order_status(), "Кнопка 'Посмотреть статус' не отображается"
